@@ -1,0 +1,296 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
+using MonoGame.Extended.Tiled;
+using MonoGame.Extended.Tiled.Graphics;
+using TRY.GameStates;
+using TRY.Kampfmodus;
+using TRY.Kampfmodus.Characters;
+using TRY.SaveGame;
+
+namespace TRY
+{
+    internal sealed class BattleMode : States
+    {
+        private SpriteBatch mSpriteBatch;
+        private SpriteBatch mInterfaceBatch;
+
+        //Textures and Ressources
+        private Texture2D mAlien;
+        private Texture2D mAlien2;
+        private Texture2D mProjectile;
+        private Texture2D mDottedLine;
+        private Texture2D mAstronaut;
+        private Texture2D mRobot;
+        private Dictionary<string, Texture2D> mTextures;
+        private Texture2D mEnergy;
+        private Texture2D mOxygen;
+        private UserInterface mUserInterface;
+        public static SoundEffectInstance[] mSoundEffectInstance = new SoundEffectInstance[2];
+        public static AudioEmitter mAudioEmitter;
+        public static AudioListener mAudioListener;
+
+        // Class instances
+        public BattleModeState BattleModeState { get; set; }
+        private InputManager mInputManager;
+        private Selection mSelection;
+        private Camera mMainCamera;
+
+        //Map neccessaire
+        private TiledMapRenderer mMapRenderer;
+        private TiledMap mMap;
+        private TiledMapObjectLayer ObjectLayer { get; set; }
+
+        // Alle Variablen für die linken und rechten Türen. Die linke Tür an Position 0 passt 
+        // zur rechten Tür an position 0.
+        private Texture2D mLeftDoorTextureClosed;
+        private Texture2D mLeftDoorTextureOpened;
+        private Texture2D mRightDoorTextureClosed;
+        private Texture2D mRightDoorTextureOpened;
+
+        // User Interface
+        private Texture2D mPortraitSelected;
+        private Texture2D mPortraitUnselected;
+        private Texture2D mHealthBar;
+        private int mPortraitWidth = 50;
+        private int mPortraitHeight = 50;
+
+        private bool[,] mBlocked;
+        private bool mLoad;
+
+        public BattleMode(Game1 game, GraphicsDevice graphicsDevice, ContentManager content, bool load = false) : base(game, graphicsDevice, content)
+        {
+            mGame = game;
+            mGraphicsDevice = graphicsDevice;
+            mContent = content;
+            mLoad = load;
+            Initialize();
+            Song song = content.Load<Song>("Music/Fight");
+            MediaPlayer.Play(song);
+        }
+
+        /// <summary>
+        /// Allows the game to perform any initialization it needs to before starting to run.
+        /// This is where it can query for any required services and load any non-graphic
+        /// related content.  Calling base.Initialize will enumerate through any components
+        /// and initialize them as well.
+        /// </summary>
+        private void Initialize()
+        {
+            // create new camera object
+            BattleModeState = new BattleModeState(mGraphicsDevice);
+            mInputManager = InputManager.Instance;
+            LoadContent();
+            mSelection = new Selection(BattleModeState, new SelectionBox(mDottedLine));
+            mUserInterface = new UserInterface(mPortraitUnselected, mPortraitSelected, BattleModeState, mSelection, mHealthBar);
+            mInterfaceBatch = new SpriteBatch(mGraphicsDevice);
+            mSpriteBatch = new SpriteBatch(mGraphicsDevice);
+            mMainCamera = new Camera(mGraphicsDevice.Viewport, mMap.WidthInPixels, mMap.HeightInPixels);
+            mMainCamera.Limits = new Rectangle(0, 0, (int)mMainCamera.mMapWidth, (int)mMainCamera.mMapHeight);
+
+
+            InitializeMap();
+            if (!mLoad)
+            {
+                InitializePlayers();
+                InitializeDoors();
+            }
+            else
+            {
+                LoadFromFile load = new LoadFromFile();
+
+                List<string> chars = load.ReturnChar();
+                LoadPlayer(chars);
+
+                chars = load.ReturnEnemy();
+                LoadEnemy(chars);
+            }
+        }
+
+        private void LoadPlayer(List<string> chars)
+        {
+            for (int i = 0; i< chars.Count; i += 4)
+            {
+                int x = Convert.ToInt32(chars[i]);
+                int y = Convert.ToInt32(chars[i + 1]);
+                var texture = mTextures[chars[i + 3]];
+                BattleModeState.AddPlayerCharacter(new Character(texture, new Point(x, y), new Point(40, 86), mProjectile));
+            }
+        }
+
+        private void LoadEnemy(List<string> chars)
+        {
+            for (int i = 0; i< chars.Count; i += 4)
+            {
+                int x = Convert.ToInt32(chars[i]);
+                int y = Convert.ToInt32(chars[i + 1]);
+                var texture = mTextures[chars[i + 3]];
+                BattleModeState.AddNpc(new Character(texture, new Point(x, y), new Point(40, 86), mProjectile));
+            }
+        }
+
+        /// <summary>
+        /// Initializes Map and Collision field
+        /// </summary>
+        private void InitializeMap()
+        {
+            BattleModeState.AddItem(new CollectableItem(mOxygen, mEnergy, true, new Vector2(400, 100)));
+            BattleModeState.AddItem(new CollectableItem(mOxygen, mEnergy, false, new Vector2(300, 100)));
+
+            //Initialise Map
+            mMapRenderer = new TiledMapRenderer(mGraphicsDevice);
+            //Convert the collision layer to a bool array of blocked pixels
+            var collisionLayer = mMap.GetLayer<TiledMapObjectLayer>("CollisionObjects");
+            mBlocked = new bool[mMap.WidthInPixels,mMap.HeightInPixels];
+            foreach (var collisionObject in collisionLayer.Objects)
+            {
+                for (var x = (int) collisionObject.Position.X; x <= (int) collisionObject.Size.Width + collisionObject.Position.X; x++)
+                {
+                    for (var y = (int) collisionObject.Position.Y; y <= (int) collisionObject.Size.Height + collisionObject.Position.Y; y++)
+                    {
+                        mBlocked[x, y] = true;
+                    }
+                }
+            }
+
+<<<<<<< HEAD
+=======
+            Formation formation = new Formation(mContent, BattleModeState, 700, 200, mProjectile);
+            formation = new Formation(mContent, BattleModeState, 1500, 200, mProjectile);
+>>>>>>> iss95
+            var objectLayer = mMap.GetLayer<TiledMapObjectLayer>("Objects");
+            objectLayer.IsVisible = false;
+            ObjectLayer = objectLayer;
+
+            // Add enemys
+            new Formation(mContent, BattleModeState, 700, 200);
+            new Formation(mContent, BattleModeState, 1500, 200);
+        }
+
+
+        /// <summary>
+        /// Initializes Players at spawn
+        /// </summary>
+        private void InitializePlayers()
+        {
+            foreach (var obj in ObjectLayer.Objects)
+            {
+                if (obj.Name == "Spawn")
+                {
+                    BattleModeState.AddPlayerCharacter(new Character(mAstronaut, obj.Position.ToPoint(), new Point(40, 86), mProjectile));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Initializes Doors
+        /// </summary>
+        private void InitializeDoors()
+        {
+            //Initialise doors
+            var doorLayerLeft = mMap.GetLayer<TiledMapObjectLayer>("LeftDoors");
+            var doorLayerRight = mMap.GetLayer<TiledMapObjectLayer>("RightDoors");
+            doorLayerRight.IsVisible = false;
+            doorLayerLeft.IsVisible = false;
+            for (var index = 0; index <System.Math.Max(doorLayerLeft.Objects.Length, doorLayerRight.Objects.Length); index++)
+            {
+                BattleModeState.AddDoor(new Door(mLeftDoorTextureClosed, mLeftDoorTextureOpened, doorLayerLeft.Objects[index].Position, true));
+                BattleModeState.AddDoor(new Door(mRightDoorTextureClosed, mRightDoorTextureOpened, doorLayerRight.Objects[index].Position, true));
+            }
+        }
+
+        /// <summary>
+        /// LoadContent will be called once per game and is the place to load
+        /// all of your content.
+        /// </summary>
+        private void LoadContent()
+        {
+            // Load background, alien and projectile image.
+            mAlien2 = mContent.Load<Texture2D>("Aliens/alien");
+            mAlien = mContent.Load<Texture2D>("Aliens/space-invaders");
+            mAstronaut = mContent.Load<Texture2D>("Characters/Support1/AstronautSprite");
+            mRobot = mContent.Load<Texture2D>("Characters/Fernkampf1/Fernkampf1Sprite");
+            mProjectile = mContent.Load<Texture2D>("Projectiles/Projectile");
+
+            mTextures = new Dictionary<string, Texture2D>();
+            mTextures.Add(mAlien.Name, mAlien);
+            mTextures.Add(mAlien2.Name, mAlien2);
+            mTextures.Add(mAstronaut.Name, mAstronaut);
+            mTextures.Add(mRobot.Name, mRobot);
+
+            mHealthBar = mContent.Load<Texture2D>("Utility/HealthBar");
+            mEnergy = mContent.Load<Texture2D>("energy");
+            mOxygen = mContent.Load<Texture2D>("oxygen");
+
+            // Load Select Box texture, which is a dotted line.
+            mDottedLine = mContent.Load<Texture2D>("Utility/DottedLine");
+
+            // Load SoundEffect resource
+            mSoundEffectInstance[0] = mContent.Load<SoundEffect>("Music/mativve__walking-5").CreateInstance();
+            mSoundEffectInstance[1] = mContent.Load<SoundEffect>("Music/maxlandergard__smallorgan").CreateInstance();
+            mSoundEffectInstance[0].IsLooped = true;
+            mAudioEmitter = new AudioEmitter();
+            mAudioListener = new AudioListener();
+
+            //Map Loading
+            mMap = mContent.Load<TiledMap>(assetName: "Map/BattleMap1");
+            mLeftDoorTextureClosed = mContent.Load<Texture2D>("Map/LeftDoor");
+            mRightDoorTextureClosed = mContent.Load<Texture2D>("Map/RightDoor");
+            mLeftDoorTextureOpened = mContent.Load<Texture2D>("Map/LeftDoorOpened");
+            mRightDoorTextureOpened = mContent.Load<Texture2D>("Map/RightDoorOpened");
+
+            // At this Point just drawing these would be simpler.
+            mPortraitSelected = new Texture2D(mGraphicsDevice, mPortraitWidth, mPortraitHeight);
+            var color = new Color[mPortraitWidth * mPortraitHeight];
+            for (var i = 0; i < color.Length; i++)
+            {
+                color[i] = Color.LightGreen;
+            }
+            mPortraitSelected.SetData(color);
+
+            mPortraitUnselected = new Texture2D(mGraphicsDevice, mPortraitWidth, mPortraitHeight);
+            var uColor = new Color[mPortraitWidth * mPortraitHeight];
+            for (var i = 0; i < uColor.Length; i++)
+            {
+                uColor[i] = Color.Chocolate;
+            }
+            mPortraitUnselected.SetData(uColor);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            mGraphicsDevice.Clear(Color.Black);
+            mInterfaceBatch.Begin();
+            mSpriteBatch.Begin(transformMatrix: mMainCamera.GetViewMatrix());
+            mMapRenderer.Draw(mMap, mMainCamera.GetViewMatrix());
+
+            // Draw all Characters
+            BattleModeState.Draw(mSpriteBatch, mHealthBar);
+
+            // Drawing the selection box, mBattleModeState needed for the WorldtoScreen method, which will set the coordinates correctly. 
+            mSelection.SelectionBox.Draw(mSpriteBatch);
+
+            mUserInterface.Draw(mGraphicsDevice, mInterfaceBatch);
+
+            mSpriteBatch.End();
+
+            mInterfaceBatch.End();
+        }
+
+        /// <summary>
+        /// Updates the main action of the Game
+        /// </summary>
+        public override void Update(GameTime gameTime)
+        {
+            mMapRenderer.Update(mMap, gameTime);
+            mInputManager.Update(mMainCamera, mUserInterface, mGame, mGraphicsDevice, mContent, BattleModeState, mSelection);
+            if (mGame.IsActive) mInputManager.Update(mMainCamera, mUserInterface, mGame, mGraphicsDevice, 
+                mContent, BattleModeState, mSelection);
+            BattleModeState.Update(gameTime);
+        }
+    }
+}

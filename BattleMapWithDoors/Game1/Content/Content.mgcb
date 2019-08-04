@@ -1,0 +1,36 @@
+
+#----------------------------- Global Properties ----------------------------#
+
+/outputDir:bin/$(Platform)
+/intermediateDir:obj/$(Platform)
+/platform:DesktopGL
+/config:
+/profile:Reach
+/compress:False
+
+#-------------------------------- References --------------------------------#
+
+/reference:..\..\packages\Nez.PipelineImporter.0.9.2\tools\Ionic.ZLib.dll
+/reference:..\..\packages\Nez.PipelineImporter.0.9.2\tools\Newtonsoft.Json.dll
+/reference:..\..\packages\Nez.PipelineImporter.0.9.2\tools\Nez.dll
+/reference:..\..\packages\Nez.PipelineImporter.0.9.2\tools\Nez.PipelineImporter.dll
+
+#---------------------------------- Content ---------------------------------#
+
+#begin BattleMap1.tmx
+/importer:TiledMapImporter
+/processor:TiledMapProcessor
+/build:BattleMap1.tmx
+
+#begin Dungeon_Tileset.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Dungeon_Tileset.png
+

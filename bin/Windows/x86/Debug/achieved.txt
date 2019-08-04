@@ -1,0 +1,15 @@
+12
+36
+0
+False
+True
+False
+True
+False
+False
+4
+0
+False
+561,248000000001
+2
+0

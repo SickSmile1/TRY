@@ -1,0 +1,173 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using TRY.Kampfmodus.Characters;
+using TRY.Kampfmodus.Commands;
+
+namespace TRY.Kampfmodus
+{
+    //Saves all relevant game state information, tracks all characters
+    class BattleModeState
+    {
+        //this is a collection of all playable characters
+        private HashSet<ICharacter> mPlayerCharacters;
+        //this data structure registers all selected characters in an observer-pattern that communicates command-objects to all registered characters
+        private SelectedSubject mSelectedCharacters;
+
+        //this is the set of all non-player-characters
+        private HashSet<ICharacter> mNPCharacters;
+
+        public Camera mMainCamera;
+
+        private BoxSelection mBoxSelect;
+
+        public List<ICharacter> GetPlayerCharacters()
+        {
+            List<ICharacter> allCharacters = new List<ICharacter>();
+            foreach (var ch in mPlayerCharacters)
+            {
+                allCharacters.Add(ch);
+            }
+            return allCharacters;
+        }
+
+        public bool IsSelected(ICharacter ch)
+        {
+            return mSelectedCharacters.IsObserver(ch);
+        }
+
+        public BattleModeState(GraphicsDevice graphics)
+        {
+            //Initialise all data structures
+            mPlayerCharacters = new HashSet<ICharacter>();
+            mSelectedCharacters = new SelectedSubject();
+            mNPCharacters = new HashSet<ICharacter>();
+<<<<<<< HEAD
+            mMainCamera = new Camera(graphics.Viewport, 1920, 1200);
+            mMainCamera.Limits = new Rectangle(0, 0, (int)mMainCamera.mMapwidth, (int)mMainCamera.mMapheight);
+=======
+            mMainCamera = new Camera(graphics.Viewport, 1920,1200);
+            mMainCamera.Limits = new Rectangle(0, 0, (int)mMainCamera.Mapwidth, (int)mMainCamera.Mapheight);
+            // mBoxSelect = new BoxSelection(text);
+>>>>>>> iss64
+        }
+
+        public HashSet<ICharacter> NPCharacters
+        {
+            get { return mNPCharacters; }
+        }
+
+        //this function adds a player character to the game
+        public void AddPlayerCharacter(ICharacter c)
+        {
+            mPlayerCharacters.Add(c);
+        }
+
+        // This function adds an NPC to the game.
+        public void AddNpc(ICharacter c)
+        {
+            mNPCharacters.Add(c);
+        }
+
+        //this function removes a player character from the game
+        public void RemovePlayerCharacter(ICharacter c)
+        {
+            mPlayerCharacters.Remove(c);
+        }
+
+        //this function selects all clicked-on characters as selected
+        public void SelectPlayerCharacters(Point clickPosition)
+        {
+            //initialise the list of clicked-on characters as empty
+            List<ICharacter> selectedCharacters = new List<ICharacter>();
+
+            //Check if the clicked Position lies in the range of any of the player characters
+            foreach (var character in mPlayerCharacters)
+            {
+                if (character.CharacterArea.Contains(clickPosition))
+                {
+                    selectedCharacters.Add(character);
+                }
+            }
+            //return selectedCharacters;
+            //register all clicked-on characters as selected
+            SelectCharacters(selectedCharacters);
+        }
+
+        public void SelectMultiplePlayers()
+        {
+            List<ICharacter> selectedCharacters = new List<ICharacter>();
+
+            // Using BoundingBox class to check if the select box contains the characters' area. Z is always 0, because our game is 2D.
+            BoundingBox selectBox = new BoundingBox(new Vector3(mMainCamera.WorldToScreen(NewGame.mSelectionBox.Location).X,
+                    mMainCamera.WorldToScreen(NewGame.mSelectionBox.Location).Y, 0),
+                    new Vector3(NewGame.mSelectionBox.Width, NewGame.mSelectionBox.Height, 0));
+            foreach (var character in mPlayerCharacters)
+            {
+                BoundingBox characterBox = new BoundingBox(new Vector3(character.Position, 0),
+                    new Vector3(character.Texture.Width*0.2f, character.Texture.Height*0.2f, 0));
+                // Test for intersection
+                if (selectBox.Intersects(characterBox))
+                {
+                    Console.WriteLine(selectBox.Min.ToString() + " " + selectBox.Max.ToString() + " " + characterBox.Min.ToString() + " " + characterBox.Max.ToString());
+                    selectedCharacters.Add(character);
+                }
+            }
+            SelectCharacters(selectedCharacters);
+        }
+
+
+        //Register a single character as selected
+        public void SelectCharacter(ICharacter c)
+        {
+            mSelectedCharacters.UnregisterAll();
+            mSelectedCharacters.Register(c);
+        }
+
+        //Register a list of characters as selected
+        private void SelectCharacters(List<ICharacter> characterList)
+        {
+            mSelectedCharacters.UnregisterAll();
+            foreach (var c in characterList)
+            {
+                mSelectedCharacters.Register(c);
+            }
+        }
+
+        //This function draws the whole game state
+        public void Draw(SpriteBatch sb)
+        {
+            foreach (var c in mPlayerCharacters)
+            {
+                c.Weapon.Draw(sb);
+                c.Draw(sb);
+
+            }
+
+            foreach (var c in mNPCharacters)
+            {
+                c.Draw(sb);
+            }
+
+            // mBoxSelect.Draw(this, sb, );
+        }
+
+        //This function updates the game state
+        public void Update(GameTime gameTime)
+        {
+            foreach (var c in mPlayerCharacters)
+            {
+                c.Update(gameTime);
+                c.Weapon.UseWeapon(mNPCharacters, gameTime);
+            }
+        }
+
+        //This function sends a command to all selected characters
+        public void SendCommand(ICommandFactory cf)
+        {
+            mSelectedCharacters.SendCommand(cf);
+        }
+    }
+}

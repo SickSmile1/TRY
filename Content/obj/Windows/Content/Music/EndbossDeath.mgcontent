@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/molot/OneDrive/Documents/sopra/sopra03/src/TRY/Content/Music/EndbossDeath.wav</SourceFile>
+  <SourceTime>2019-07-20T17:13:21.4408112+02:00</SourceTime>
+  <DestFile>C:/Users/molot/OneDrive/Documents/sopra/sopra03/src/TRY/Content/bin/Windows/Content/Music/EndbossDeath.xnb</DestFile>
+  <DestTime>2019-07-21T10:41:28.2488295+02:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2018-12-08T17:35:54+01:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

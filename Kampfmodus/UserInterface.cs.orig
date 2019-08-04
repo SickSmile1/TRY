@@ -1,0 +1,96 @@
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace TRY.Kampfmodus
+{
+    class UserInterface
+    {
+        private readonly BattleModeState mBms;
+        private readonly Selection mSelection;
+        private readonly float mPortraitBorderX;
+        private readonly float mPortraitBorderY;
+        private readonly int mPortraitWidth;
+        private Texture2D mPortraitSelected;
+        private Texture2D mPortraitUnselected;
+        private readonly Texture2D mAbilityActive;
+        private readonly Texture2D mMineA;
+        private readonly Texture2D mAbilityNotActive;
+        private readonly HealthBar mHealthBar;
+        private readonly SpriteFont mFont;
+
+
+        public UserInterface(Texture2D portraitUnselected, Texture2D portraitSelected, BattleModeState bms,
+                             Selection select, Texture2D healthBar, SpriteFont font, Texture2D abilActive, Texture2D abilNotActive)
+        {
+            mPortraitUnselected = portraitUnselected;
+            mPortraitSelected = portraitSelected;
+            mBms = bms;
+            mSelection = select;
+            mHealthBar = new HealthBar(healthBar);
+            mPortraitBorderX = 50f;
+            mPortraitBorderY = 50f;
+            mPortraitWidth = 70;
+            mFont = font;
+            mAbilityActive = abilActive;
+            mAbilityNotActive = abilNotActive;
+        }
+
+        public bool SelectInterface(Point clickPoint)
+        {
+            var nChar = 0;
+            mSelection.UnselectAll();
+            foreach (var ch in mBms.GetPlayerCharacters())
+            {
+                var rect = new Rectangle((int)mPortraitBorderX + (int)(mPortraitWidth + mPortraitBorderX) * nChar,
+                                         (int)mPortraitBorderY, mPortraitWidth, mPortraitWidth);
+                if (rect.Contains(clickPoint))
+                {
+                    mSelection.SelectCharacter(ch);
+                    return true;
+                }
+
+                nChar++;
+            }
+            return false;
+        }
+
+
+        public void Draw(GraphicsDevice graphics, SpriteBatch sb, TextureManager textureManager)
+        {
+            var list = new List<string>() { "Vut", "Maximus", "Wiense", "Domogas", "Burkha", "Ngol" };
+            sb.DrawString(mFont, "Oxygen: " + mBms.Oxygen,
+                          new Vector2(graphics.Viewport.Width - 100, 20), Color.AliceBlue);
+            sb.DrawString(mFont, "Energy: " + mBms.Energy,
+                          new Vector2(graphics.Viewport.Width - 200, 20), Color.AliceBlue);
+            var borderX = mPortraitBorderX;
+            var borderY = mPortraitBorderY;
+            var width = mPortraitWidth;
+            var offset = new Vector2(borderX, borderY);
+ 
+            foreach (var ch in mBms.GetPlayerCharacters())
+            {
+                if (ch.Ability != null && (ch.Ability.SecondsPassed<ch.Ability.CoolDown))
+                {
+                    // ch.Ability.HudAnimation.Draw(sb,new Vector2((int)offset.X,(int)offset.Y + 75), textureManager);
+                    //^sb.Draw(ch.Ability.Texture , destinationrectangle: new Rectangle((int)offset.X,
+                    //    (int)offset.Y + 75,
+                    //    mAbilityActive.Width / 12, mAbilityActive.Height / 12), Color.White);
+                }
+
+                sb.Draw(textureManager.GetTexture(ch.Texture+"Hud"), destinationRectangle: new Rectangle((int)offset.X, (int)offset.Y, width, width),
+                            Color.White);
+<<<<<<< HEAD
+=======
+                //sb.Draw(textureManager.GetTexture(ch.Texture + "Abi"), destinationRectangle: new Rectangle((int)offset.X, (int)offset.Y + 150, width, width),
+                //            Color.White);
+>>>>>>> 0f8c362a70cb1c6922155ed728b39afb64bd9fc3
+                mPortraitSelected = textureManager.GetTexture(ch.Texture + "HudSel");
+                mPortraitUnselected = textureManager.GetTexture(ch.Texture + "Hud");
+                sb.Draw(mSelection.IsSelected(ch) ? mPortraitSelected : mPortraitUnselected, offset, Color.White);
+                mHealthBar.DrawCharacterHp(sb, offset, ch.Health);
+                offset.X += width + borderX;
+            }
+        }
+    }
+}

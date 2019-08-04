@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/molot/OneDrive/Documents/sopra/sopra03/src/TRY/Content/Menu/File.spritefont</SourceFile>
+  <SourceTime>2019-07-02T10:06:29.209683+02:00</SourceTime>
+  <DestFile>C:/Users/molot/OneDrive/Documents/sopra/sopra03/src/TRY/Content/bin/Windows/Content/Menu/File.xnb</DestFile>
+  <DestTime>2019-07-02T10:08:13.4676345+02:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2018-12-08T17:35:54+01:00</ProcessorTime>
+  <Parameters>
+    <Key>PremultiplyAlpha</Key>
+    <Value>True</Value>
+  </Parameters>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

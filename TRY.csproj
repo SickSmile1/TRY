@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BFB52F64-9872-403F-80D8-B299230CED30}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TRY</RootNamespace>
+    <AssemblyName>TRY</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MonoGamePlatform>Windows</MonoGamePlatform>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\$(MonoGamePlatform)\$(Platform)\$(Configuration)\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ConsoleCommands.cs" />
+    <Compile Include="GameStates\GameOver.cs" />
+    <Compile Include="GameStates\Structure\Achieved.cs" />
+    <Compile Include="GameStates\Achievements.cs" />
+    <Compile Include="GameStates\Structure\Attributes.cs" />
+    <Compile Include="GameStates\Structure\Button.cs" />
+    <Compile Include="GameStates\Configs.cs" />
+    <Compile Include="GameStates\Credits.cs" />
+    <Compile Include="GameStates\LevelScreen.cs" />
+    <Compile Include="GameStates\MenuState.cs" />
+    <Compile Include="GameStates\PauseMenuState.cs" />
+    <Compile Include="GameStates\Structure\Progress.cs" />
+    <Compile Include="GameStates\TechDemo.cs" />
+    <Compile Include="GameStates\Textures.cs" />
+    <Compile Include="GameStates\WinScreen.cs" />
+    <Compile Include="Kampfmodus\Abilities\Distraction.cs" />
+    <Compile Include="Kampfmodus\Abilities\DistractionObject.cs" />
+    <Compile Include="Kampfmodus\Abilities\Emp.cs" />
+    <Compile Include="Kampfmodus\Abilities\IAbility.cs" />
+    <Compile Include="Kampfmodus\Abilities\MindControl.cs" />
+    <Compile Include="Kampfmodus\Abilities\MineObjects.cs" />
+    <Compile Include="Kampfmodus\Abilities\Mines.cs" />
+    <Compile Include="Kampfmodus\Abilities\ReviveCharacter.cs" />
+    <Compile Include="Kampfmodus\Abilities\RoundKick.cs" />
+    <Compile Include="Kampfmodus\Abilities\ShieldExplosion.cs" />
+    <Compile Include="Kampfmodus\AddEnemy.cs" />
+    <Compile Include="Kampfmodus\AI\EvadingPlayer.cs" />
+    <Compile Include="Kampfmodus\AI\KIPlanner.cs" />
+    <Compile Include="Kampfmodus\AI\MoveToPlayer.cs" />
+    <Compile Include="Kampfmodus\AI\MoveToTarget.cs" />
+    <Compile Include="Kampfmodus\AI\Spread.cs" />
+    <Compile Include="Kampfmodus\Characters\Endboss.cs" />
+    <Compile Include="Kampfmodus\Collision\CollisionManager.cs" />
+    <Compile Include="Kampfmodus\Collision\IStaticCollider.cs" />
+    <Compile Include="Kampfmodus\Collision\Wall.cs" />
+    <Compile Include="Kampfmodus\Commands\FollowCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\GoNearCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\MakeFollowCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\MakeGoNearCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\MakeUseAbilityCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\OpenDoorCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\UseAbilityCommand.cs" />
+    <Compile Include="Kampfmodus\CryoChamber.cs" />
+    <Compile Include="Kampfmodus\EnemySpawns.cs" />
+    <Compile Include="Kampfmodus\Graphics\Explosion.cs" />
+    <Compile Include="Kampfmodus\Graphics\Line.cs" />
+    <Compile Include="Kampfmodus\Map.cs" />
+    <Compile Include="Kampfmodus\Pathfinding\GridNode.cs" />
+    <Compile Include="Kampfmodus\Pathfinding\Pathfinding.cs" />
+    <Compile Include="Kampfmodus\Pathfinding\PriorityQueue2.cs" />
+    <Compile Include="Kampfmodus\Structure\QField.cs" />
+    <Compile Include="Kampfmodus\TextureManager.cs" />
+    <Compile Include="Kampfmodus\Weapons\Explode.cs" />
+    <Compile Include="Kampfmodus\Weapons\IncreaseStrength.cs" />
+    <Compile Include="Kampfmodus\Weapons\Rifle.cs" />
+    <Compile Include="Kampfmodus\Weapons\Shield.cs" />
+    <Compile Include="SaveGame\LoadFromFile.cs" />
+    <Compile Include="Kampfmodus\AI\AttackPlayer.cs" />
+    <Compile Include="Kampfmodus\AI\IKIActions.cs" />
+    <Compile Include="Kampfmodus\AI\KIActionManager.cs" />
+    <Compile Include="Kampfmodus\CollectableItem.cs" />
+    <Compile Include="Kampfmodus\Collision\IDynamicCollider.cs" />
+    <Compile Include="SaveGame\SaveStateFile.cs" />
+    <Compile Include="GameStates\Structure\States.cs" />
+    <Compile Include="Kampfmodus\Characters\Animation.cs" />
+    <Compile Include="Kampfmodus\Camera.cs" />
+    <Compile Include="Kampfmodus\Characters\Character.cs" />
+    <Compile Include="Kampfmodus\Characters\Formation.cs" />
+    <Compile Include="Kampfmodus\HealthBar.cs" />
+    <Compile Include="Kampfmodus\Door.cs" />
+    <Compile Include="Kampfmodus\SelectionBox.cs" />
+    <Compile Include="Kampfmodus\InputManager.cs" />
+    <Compile Include="Kampfmodus\Characters\ICharacter.cs" />
+    <Compile Include="Kampfmodus\BattleModeState.cs" />
+    <Compile Include="Kampfmodus\Commands\ICommand.cs" />
+    <Compile Include="Kampfmodus\Commands\ICommandFactory.cs" />
+    <Compile Include="Kampfmodus\Commands\ICommandObserver.cs" />
+    <Compile Include="Kampfmodus\Commands\ICommandSubject.cs" />
+    <Compile Include="Game1.cs" />
+    <Compile Include="Kampfmodus\Selection.cs" />
+    <Compile Include="Kampfmodus\Weapons\IWeapon.cs" />
+    <Compile Include="Kampfmodus\Commands\MakePatrolCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\MoveCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\MakeMoveCommand.cs" />
+    <Compile Include="Kampfmodus\Commands\PatrolCommand.cs" />
+    <Compile Include="Kampfmodus\Program.cs" />
+    <Compile Include="Kampfmodus\Weapons\Melee.cs" />
+    <Compile Include="Kampfmodus\Weapons\Projectile.cs" />
+    <Compile Include="Kampfmodus\UserInterface.cs" />
+    <Compile Include="Kampfmodus\Utilities.cs" />
+    <Compile Include="BattleMode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Kampfmodus\SelectedSubject.cs" />
+    <Compile Include="ScreenManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Graphics, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.Extended.Graphics.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.Graphics.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Tiled, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.Extended.Tiled.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.Tiled.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.QuakeConsole, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.QuakeConsole.WindowsDX.1.1.3\lib\net45\MonoGame.QuakeConsole.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.QuakeConsole.ManualInterpreter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MonoGame.QuakeConsole.ManualInterpreter.WindowsDX.1.1.3-alpha\lib\net45\MonoGame.QuakeConsole.ManualInterpreter.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Content\Content.mgcb" />
+    <None Include="app.manifest" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties content_4content_1mgcb__JsonSchema="http://json.schemastore.org/azure-iot-edge-deployment-template-2.0" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

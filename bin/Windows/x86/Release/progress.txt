@@ -1,0 +1,1 @@
+{"PlayerOxygen":4,"ValueChanged":false,"PlayerEnergy":2,"CurrentLevel":4,"PlayerLevel":{"Vut":[0,0],"Maximus":[2,1],"Wiense":[0,0],"Domogas":[0,1],"Burkha":[0,1],"Ngol":[0,0]}}

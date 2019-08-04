@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Users/molot/OneDrive/Documents/sopra/sopra03/src/TRY/Content/Music/piu.wav</SourceFile>
+  <SourceTime>2019-07-21T11:41:50.6231527+02:00</SourceTime>
+  <DestFile>C:/Users/molot/OneDrive/Documents/sopra/sopra03/src/TRY/Content/bin/Windows/Content/Music/piu.xnb</DestFile>
+  <DestTime>2019-07-21T11:56:35.8618959+02:00</DestTime>
+  <Importer>WavImporter</Importer>
+  <ImporterTime>2018-12-08T17:35:54+01:00</ImporterTime>
+  <Processor>SoundEffectProcessor</Processor>
+  <ProcessorTime>2018-12-08T17:35:54+01:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>
